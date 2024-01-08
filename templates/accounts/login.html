@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto text-center">
+{% if not request.user.is_authenticated %}
+    <form method='POST'>{% csrf_token %}
+        <h2>Login</h2>
+        {{ form.as_p }}
+
+        <input class="btn btn-info" role="button" type="submit" value="Submit" >
+
+
+    </form>
+    {% else %}
+        <h2>Your are already logged in. Would you like to log out?</h2>
+        <a class="btn btn-info" role="button" href="/accounts/logout/">Log out</a>
+    {% endif %}
+    <a class="btn btn-info my-2" role="button" href="/">Home</a>
+</div>
+{% endblock content %}
