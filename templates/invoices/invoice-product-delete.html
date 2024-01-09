@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container justify-content-center">
+    <h2>Are you sure you want to delete {{ invoice_product.product.name }} (quantity: {{ invoice_product.quantity }}) from {{ invoice.number }} forever?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+    <a class="btn btn-success my-2" role="button" href="/invoices/{{ invoice.slug }}">Go back</a>
+</div>
+
+{% endblock content %}

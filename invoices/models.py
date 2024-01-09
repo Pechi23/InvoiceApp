@@ -20,12 +20,12 @@ class Invoice(models.Model):
     number = models.CharField(max_length=32, null=True, blank=True)
     currency = models.CharField(choices=curencies, max_length=16)
 
-    UniqueId = models.CharField(max_length=16,blank=True,null=True)
+    UniqueId = models.CharField(max_length=32,blank=True,null=True)
     slug = models.SlugField(null=True, blank=True)
 
     @property
     def total_price(self):
-        total = sum(invoice_product.total_price for invoice_product in InvoiceProduct.objects.filter(invoice=self))
+        total = sum(invoice_product.partial_price for invoice_product in InvoiceProduct.objects.filter(invoice=self))
         return total
 
     
@@ -36,14 +36,29 @@ class Invoice(models.Model):
             self.slug = slugify(self.number) 
         super().save(*args,**kwargs)
 
+    def __str__(self):
+        return self.number
+
 class InvoiceProduct(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+
+    slug = models.SlugField(max_length=64, null=True, blank=True)
     
     @property
-    def total_price(self):
-        total = self.product.price * self.quantity
-        return total 
+    def partial_price(self):
+        partial = self.product.price * self.quantity
+        return partial
+    
+    def __str__(self):
+        return f"{self.product.name}-{self.quantity}"
+    
+    def save(self,*args,**kwargs):
+        if self.slug is None:
+            self.number = str(uuid4()).split('-')[4]
+            self.slug = slugify(self.number) 
+        super().save(*args,**kwargs)
+    
     
 

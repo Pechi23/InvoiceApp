@@ -10,7 +10,7 @@ admin.site.register(Invoice, InvoiceAdmin)
 
 class InvoiceProductAdmin(admin.ModelAdmin):
     model = InvoiceProduct
-    list_display = ["invoice", "product", "quantity", "total_price"]
+    list_display = ["invoice", "product", "quantity", "partial_price"]
 
 admin.site.register(InvoiceProduct, InvoiceProductAdmin)
 

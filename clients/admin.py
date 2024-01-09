@@ -4,6 +4,6 @@ from .models import Client
 
 class ClientAdmin(admin.ModelAdmin):
     model = Client
-    list_display = ["first_name", "last_name"]
+    list_display = ["user", "first_name", "last_name"]
 
 admin.site.register(Client, ClientAdmin)

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container justify-content-center">
+    <h1>Products</h1>    
+
+    {% for product in products %}
+    <div class="card my-2">
+        <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+            <h5 class="card-text">{{ product.price }}</h3>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card my-3">
+    <div class="card-body">
+        <h2 class="card-title">Add new products</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success" type="submit">Add Product</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container justify-content-center">
+    <h1>Invoices</h1>    
+
+    {% for invoice in invoices %}
+    <div class="card my-2">
+        <div class="card-body">
+            <h3 class="card-title">{{ invoice.client }} - {{ invoice.number }}</h3>
+            <h5 class="card-text">{{ invoice.total_price }}{{ invoice.currency }}</h3>
+            <a class="btn btn-warning" role="button" href="/invoices/{{invoice.slug }}">Edit Invoice</a>
+            <a class="btn btn-danger" role="button" href="/invoices/delete/{{invoice.slug }}">Delete Invoice</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card my-3">
+    <div class="card-body">
+        <h2 class="card-title">Create new invoices</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success" type="submit">Create Invoice</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

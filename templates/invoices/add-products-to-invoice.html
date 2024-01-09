@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card my-3">
+    <div class="card-body">
+        <h2 class="card-title">Add products to {{ invoice.number }}</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success my-3" type="submit">Add product</button>
+        </form>
+    </div>
+</div>
+
+<a class="btn btn-warning my-3" role="button" href="/invoices/{{invoice.slug }}">Back to the invoice</a>
+{% endblock content %}
