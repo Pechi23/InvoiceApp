@@ -17,11 +17,11 @@ class Invoice(models.Model):
     }
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    number = models.CharField(max_length=64)
-    currency = models.CharField(choices=curencies,max_length=16)
+    number = models.CharField(max_length=32, null=True, blank=True)
+    currency = models.CharField(choices=curencies, max_length=16)
 
     UniqueId = models.CharField(max_length=16,blank=True,null=True)
-    slug = models.SlugField()
+    slug = models.SlugField(null=True, blank=True)
 
     @property
     def total_price(self):
@@ -31,7 +31,7 @@ class Invoice(models.Model):
     
     def save(self,*args,**kwargs):
         if self.UniqueId is None:
-            self.UniqueId = str(uuid4).split('-')[4]
+            self.UniqueId = str(uuid4()).split('-')[3]
             self.number = f"INV-{self.UniqueId}"
             self.slug = slugify(self.number) 
         super().save(*args,**kwargs)
