@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="container d-inline-flex justify-content-between">
+    <h5>Created: {{ invoice.created}} UTC</h5>
+    <h5>Last Updated: {{ invoice.last_updated }} UTC</h5>
+</div>
 <div class="container justify-content-center">
     <div class="card py-3">
         <div class="card-body">
