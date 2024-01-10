@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def clients_list_view(request):
     form = ClientForm(request.POST or None)
-    clients = Client.objects.all()
+    clients = Client.objects.filter(user=request.user)
 
     if form.is_valid():
         obj = form.save(commit=False)

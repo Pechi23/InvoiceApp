@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import Invoice,InvoiceProduct
+from clients.models import Client
 from .forms import InvoiceForm, InvoiceProductForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -7,7 +8,11 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def invoices_list_view(request):
     form = InvoiceForm(request.POST or None)
-    invoices = Invoice.objects.all()
+    clients = get_list_or_404(Client, user=request.user)
+    invoices = []
+    for invoice in Invoice.objects.all():
+        if invoice.client in clients:
+            invoices.append(invoice)
 
     if form.is_valid():
         obj = form.save()
