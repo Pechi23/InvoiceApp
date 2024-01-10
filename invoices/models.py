@@ -26,7 +26,11 @@ class Invoice(models.Model):
     @property
     def total_price(self):
         total = sum(invoice_product.partial_price for invoice_product in InvoiceProduct.objects.filter(invoice=self))
-        return total
+        return round(total, 2)
+    
+    @property
+    def taxes(self):
+        return round(self.total_price * 19 / 100, 2)
 
     
     def save(self,*args,**kwargs):
@@ -49,7 +53,11 @@ class InvoiceProduct(models.Model):
     @property
     def partial_price(self):
         partial = self.product.price * self.quantity
-        return partial
+        return round(partial, 2)
+    
+    @property
+    def tax(self):
+        return round(self.partial_price * 19 / 100, 2)
     
     def __str__(self):
         return f"{self.product.name}-{self.quantity}"

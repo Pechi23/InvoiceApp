@@ -7,11 +7,11 @@
 
     {% for invoice in invoices %}
     <div class="card my-2">
-        <div class="card-body">
+        <div class="card-body d-inline-flex justify-content-between">
             <h3 class="card-title">{{ invoice.client }} - {{ invoice.number }}</h3>
             <h5 class="card-text">{{ invoice.total_price }}{{ invoice.currency }}</h3>
-            <a class="btn btn-warning" role="button" href="/invoices/{{invoice.slug }}">Edit Invoice</a>
-            <a class="btn btn-danger" role="button" href="/invoices/delete/{{invoice.slug }}">Delete Invoice</a>
+            <a class="btn btn-warning" role="button" href="/invoices/{{invoice.slug}}">Edit Invoice</a>
+            <a class="btn btn-danger" role="button" href="/invoices/delete/{{invoice.slug}}">Delete Invoice</a>
         </div>
     </div>
     {% endfor %}

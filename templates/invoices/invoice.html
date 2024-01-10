@@ -15,21 +15,23 @@
     </div>
 
     {% for invoice_product in invoice_products %}
-    <div class="card my-2 d-flex justify-content-around">
-        <div class="card-body">
-            <h4 class="card-title">{{ invoice_product.product.name }}</h4>
-            <h5 class="card-title">Quantity: {{ invoice_product.quantity }}</h5>
-            <h6 class="card-text">Price: {{ invoice_product.partial_price}}{{ invoice.currency }}</h6>
+    <div class="card my-2">
+        <div class="card-body d-inline-flex justify-content-around">
+            <h5 class="card-title">{{ invoice_product.product.name }}</h5>
+            <h5 class="card-text">Price: {{ invoice_product.product.price }}{{ invoice.currency }} x {{ invoice_product.quantity }}</h5>
+            <h5 class="card-text">Total: {{ invoice_product.partial_price}}{{ invoice.currency }}</h5>
+            <h5 class="card-text">Tax: {{ invoice_product.tax }}{{ invoice.currency }}</h5>
             <a class="btn btn-danger" role="button" href="/invoices/delete/{{ invoice.slug }}/{{ invoice_product.slug }}">Delete Position</a>
         </div>
     </div>
     {% endfor %}
 
 </div>
+<div class="container my-2 d-inline-flex justify-content-around">
+    <h2 class="card-text">Total: {{ invoice.total_price }}{{ invoice.currency }}</h2>
+    <h4 class="card-text">Taxes: {{ invoice.taxes }}{{ invoice.currency }}</h4>
 
-<h2 class="card-text">Total: {{ invoice.total_price }}{{ invoice.currency }}</h2>
-
-<a class="btn btn-success my-3" role="button" href="/invoices/add-to/{{invoice.slug }}">Add products</a>
-<a class="btn btn-danger" role="button" href="/invoices/delete/{{invoice.slug }}">Delete Invoice</a>
-
+    <a class="btn btn-success" role="button" href="/invoices/add-to/{{invoice.slug }}">Add products</a>
+    <a class="btn btn-danger" role="button" href="/invoices/delete/{{invoice.slug }}">Delete Invoice</a>
+</div>
 {% endblock content %}
