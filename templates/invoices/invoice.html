@@ -19,7 +19,7 @@
 
     {% for invoice_product in invoice_products %}
     <div class="card my-2">
-        <div class="card-body d-inline-flex justify-content-around">
+        <div class="card-body d-inline-flex justify-content-between">
             <h5 class="card-title">{{ invoice_product.product.name }}</h5>
             <h5 class="card-text">Price: {{ invoice_product.product.price }}{{ invoice.currency }} x {{ invoice_product.quantity }}</h5>
             <h5 class="card-text">Total: {{ invoice_product.partial_price}}{{ invoice.currency }}</h5>
