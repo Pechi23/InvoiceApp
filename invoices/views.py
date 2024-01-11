@@ -8,11 +8,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def invoices_list_view(request):
     form = InvoiceForm(request.POST or None)
-    clients = get_list_or_404(Client, user=request.user)
-    invoices = []
-    for invoice in Invoice.objects.all():
-        if invoice.client in clients:
-            invoices.append(invoice)
+    # clients = get_list_or_404(Client, user=request.user)
+    # invoice.client.user
+    invoices = Invoice.objects.filter(client__user=request.user)
 
     if form.is_valid():
         obj = form.save()

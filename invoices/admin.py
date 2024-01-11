@@ -4,7 +4,7 @@ from .models import *
 
 class InvoiceAdmin(admin.ModelAdmin):
     model = Invoice
-    list_display = ["number", "UniqueId", "total_price"]
+    list_display = ["number", "total_price"]
 
 admin.site.register(Invoice, InvoiceAdmin)
 

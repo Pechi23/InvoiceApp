@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from clients.models import Client
 from products.models import Product
 from uuid import uuid4
-import datetime
+from django.utils.timezone import now
 
 USER = settings.AUTH_USER_MODEL
 
@@ -21,10 +21,9 @@ class Invoice(models.Model):
     number = models.CharField(max_length=32, null=True, blank=True)
     currency = models.CharField(choices=curencies, max_length=16)
 
-    UniqueId = models.CharField(max_length=32,blank=True,null=True)
     slug = models.SlugField(null=True, blank=True)
-    created = models.DateTimeField(null=True, blank=True)
-    last_updated = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    last_updated = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     @property
     def total_price(self):
@@ -37,13 +36,9 @@ class Invoice(models.Model):
 
     
     def save(self,*args,**kwargs):
-        now = datetime.datetime.now()
-        self.last_updated = now
-        if self.UniqueId is None:
-            self.UniqueId = str(uuid4()).split('-')[3]
-            self.number = f"INV-{self.UniqueId}"
+        if self.slug is None:
+            self.number = f"INV-{str(uuid4()).split('-')[3]}"
             self.slug = slugify(self.number) 
-            self.created = now 
         super().save(*args,**kwargs)
 
     def __str__(self):
@@ -70,8 +65,7 @@ class InvoiceProduct(models.Model):
     
     def save(self,*args,**kwargs):
         if self.slug is None:
-            self.number = str(uuid4()).split('-')[4]
-            self.slug = slugify(self.number)
+            self.slug = slugify(str(uuid4()).split('-')[4])
         super().save(*args,**kwargs)
     
     
